@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
 
-import Feed from './src/pages/Feed/Feed';
+import Feed from './pages/Feed';
 
 export default function App() {
   return (
