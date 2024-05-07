@@ -3,14 +3,16 @@ import { View, FlatList } from "react-native"
 import Tuite from '../../components/Tuite'
 
 let total = 0;
-const limit = 15;
+const limit = 10;
 
 export default function Feed() {
+
     const [tuites, setTuites] = useState([]);
     const [skip, setSkip] = useState(0);
 
     async function loadTuites() {
-        console.log(tuites)
+        if (total != 0 && total <= skip) return;
+
         const tuitesData = await fetch(`https://dummyjson.com/posts?limit=${limit}&select=id,title,body,reactions,userId&skip=${skip}`)
             .then(res => res.json());
 
@@ -22,22 +24,23 @@ export default function Feed() {
             updatedTuites.push(tuiteWithUser);
         }
 
-        setTuites(updatedTuites);
+        setTuites([...tuites, ...updatedTuites]);
+        setSkip(skip + limit)
+        console.log(skip)
         total = tuitesData.total;
     }
 
     useEffect(() => {
         loadTuites();
-        console.log(skip)
-    }, [skip]);
+    }, []);
 
     return (
         <View>
             <FlatList
                 data={tuites}
 
-                onEndReached={() => setSkip(skip + limit)}
-                onEndReachedThreshold={0.1}
+                onEndReached={() => loadTuites()}
+                onEndReachedThreshold={0.5}
 
                 keyExtractor={item => item.id}
                 renderItem={({ item }) =>

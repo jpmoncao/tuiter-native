@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 import Feed from './pages/Feed';
 
 export default function App() {
   return (
-    <View className="flex-1 items-center justify-center bg-gray-800">
+    <SafeAreaView className="flex-1 items-center justify-center bg-gray-800">
       <Feed />
-      <StatusBar style="auto" translucent={true} />
-    </View>
+      <StatusBar style="auto" translucent={true} backgroundColor='#1f2937' />
+    </SafeAreaView>
   );
 }
